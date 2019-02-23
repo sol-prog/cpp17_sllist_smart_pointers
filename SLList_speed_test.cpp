@@ -36,6 +36,40 @@ struct List {
         }
     }
 
+    List(const List &list) {
+        Node *root = list.head.get();
+
+        std::unique_ptr<Node> new_head{nullptr};   
+        Node *pnew_head{nullptr};   
+        while(root) {
+            auto temp{std::make_unique<Node>(root->data)};
+            if(new_head == nullptr) {
+                new_head = std::move(temp);
+                pnew_head = new_head.get();
+            } else {
+               pnew_head->next = std::move(temp);
+               pnew_head = pnew_head->next.get();
+            }
+            root = root->next.get();
+        }
+        head = std::move(new_head);
+    }
+
+
+    List(List &&list) {
+        head = std::move(list.head);
+    }
+
+    void reverse() {
+        List tmp;
+        Node *root = head.get();
+        while(root) {
+            tmp.push(root->data);
+            root = root->next.get();
+        }
+        head = std::move(tmp.head);
+    }
+
     ~List() {
         clean();
     }
