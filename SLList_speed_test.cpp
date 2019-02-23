@@ -31,16 +31,9 @@ struct List {
     }
 
     void clean() {
-        if(head == nullptr) {
-            return;
+        while(head) {
+            head = std::move(head->next);
         }
-
-        while(head->next) {
-            std::unique_ptr<Node> temp = std::move(head->next);
-            head = std::move(temp);
-        }
-
-        head.reset();
     }
 
     ~List() {
@@ -54,17 +47,10 @@ private:
 };
 
 std::ostream& operator<<(std::ostream &os, const List &list) {
-    if(list.head) {
-        Node *head = list.head.get();        
-
-        while(true) {
-            os << head->data << ' ';
-            if(head->next) {
-                head = head->next.get();
-            } else {
-                break;
-            }
-        }
+    Node *head = list.head.get();
+    while(head) {
+        os << head->data << ' ';
+        head = head->next.get();
     }
     return os;
 }

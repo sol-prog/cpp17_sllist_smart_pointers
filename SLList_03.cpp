@@ -24,14 +24,8 @@ struct List {
     void pop() {/* ... */}
 
     void clean() {
-        if(head == nullptr) {
-            return;
-        }
-
-        std::unique_ptr<Node> temp;
-        while(head->next) {
-            temp = std::move(head->next);
-            head = std::move(temp);
+        while(head) {
+            head = std::move(head->next);
         }
     }
 
