@@ -38,8 +38,8 @@ struct List {
     List(const List &list) {
         Node *root = list.head.get();
 
-        std::unique_ptr<Node> new_head{nullptr};   
-        Node *pnew_head{nullptr};   
+        std::unique_ptr<Node> new_head{nullptr};
+        Node *pnew_head{nullptr};
         while(root) {
             auto temp{std::make_unique<Node>(root->data)};
             if(new_head == nullptr) {
@@ -66,6 +66,7 @@ struct List {
             tmp.push(root->data);
             root = root->next.get();
         }
+        clean();
         head = std::move(tmp.head);
     }
 
